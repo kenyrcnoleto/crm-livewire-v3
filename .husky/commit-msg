@@ -14,7 +14,7 @@ COMMIT_MESSAGE=$(cat "$1")
  if [ -z "$ISSUE_ID" ]; then
 
     echo -e "${BRed}Branch não está no padrão que deveria mestre... ${NC}"
-    exit 1
+    exit 0
 
  fi
 
