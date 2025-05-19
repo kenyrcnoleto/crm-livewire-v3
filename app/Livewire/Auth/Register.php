@@ -3,6 +3,7 @@
 namespace App\Livewire\Auth;
 
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -29,6 +30,7 @@ class Register extends Component
     {
         $this->validate();
 
+        /** @var User $user */
         $user = User::query()->create([
             'name'     => $this->name,
             'email'    => $this->email,
@@ -37,5 +39,7 @@ class Register extends Component
         ]);
 
         auth()->login($user);
+
+        $this->redirect(RouteServiceProvider::HOME);
     }
 }
