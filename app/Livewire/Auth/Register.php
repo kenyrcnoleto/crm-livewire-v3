@@ -25,15 +25,17 @@ class Register extends Component
         return view('livewire.auth.register');
     }
 
-    public function submit()
+    public function submit(): void
     {
         $this->validate();
 
-        User::query()->create([
+        $user = User::query()->create([
             'name'     => $this->name,
             'email'    => $this->email,
             'password' => $this->password,
 
         ]);
+
+        auth()->login($user);
     }
 }
