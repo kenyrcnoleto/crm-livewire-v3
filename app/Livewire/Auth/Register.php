@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Rule;
-use Livewire\Component;
+use Livewire\{Component};
 
 class Register extends Component
 {
@@ -23,7 +23,11 @@ class Register extends Component
 
     public function render(): View
     {
-        return view('livewire.auth.register');
+
+        /** @var \Illuminate\View\View $view */
+        $view = view('livewire.auth.register');
+
+        return $view->layout('components.layouts.guest');
     }
 
     public function submit(): void
