@@ -28,3 +28,14 @@ test('should be able to login', function () {
         ->and(auth()->user())->id->toBe($user->id);
 
 });
+
+test('it should make sure to inform the user an erro when email and password doesnt work', function () {
+
+    Livewire::test(Login::class)
+        ->set('email', 'joe@doe.com')
+        ->set('password', 'password')
+        ->call('tryToLogin')
+        ->assertHasErrors(['invalidCredentials'])
+        ->assertSee(trans('auth.failed'));
+
+});
