@@ -15,7 +15,10 @@ class Login extends Component
 
     public function render(): View
     {
-        return view('livewire.auth.login');
+        /** @var \Illuminate\View\View $view */
+        $view = view('livewire.auth.login');
+
+        return $view->layout('components.layouts.guest');
     }
 
     public function tryToLogin(): void
