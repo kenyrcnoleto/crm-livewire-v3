@@ -1,3 +1,3 @@
 <div>
-    {{-- Care about people's approval and you will be their prisoner. --}}
+      <x-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="logoff" no-wire-navigate wire:click="logout" />
 </div>
