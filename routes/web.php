@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\{Auth, Route};
 Route::get('/login', Login::class)->name('login');
 Route::get('/register', Register::class)->name('auth.register');
 Route::get('/logout', fn () => Auth::logout());
+Route::get('/password/recovery', fn () => 'oi')->name('auth.password.recovery');
 
 Route::middleware('auth')->group(function () {
 
