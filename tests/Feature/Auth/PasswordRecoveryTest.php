@@ -13,7 +13,7 @@ test('needs to have a route to password recovery', function () {
         ->assertOk();
 });
 
-test('it should be able to request for a password recovery', function () {
+test('it should be able to request for a password recovery sending notification to the user', function () {
     Notification::fake();
     /**@var User $user */
     $user = User::factory()->create();
@@ -27,3 +27,14 @@ test('it should be able to request for a password recovery', function () {
     Notification::assertSentTo($user, PasswordRecoveryNotification::class);
 
 });
+
+test('it making sure the email is a real email', function ($f) {
+
+    Livewire::test(Recovery::class)
+       ->set('email', $f->value)
+       ->call('startPasswordRecovery')
+       ->assertHasErrors(['email' => $f->rule]);
+})->with([
+    'required' => (object)['value' => '', 'rule' => 'required'],
+    'email'    => (object)['value' => 'any email', 'rule' => 'email'],
+]);
