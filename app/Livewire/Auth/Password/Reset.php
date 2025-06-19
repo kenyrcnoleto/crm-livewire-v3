@@ -22,7 +22,7 @@ class Reset extends Component
 
     public ?string $email_confirmation = null;
 
-    public function mount(?string $token, ?string $email): void
+    public function mount(?string $token = null, ?string $email = null): void
     {
         $this->token = request('token', $token);
         $this->email = request('email', $email);
