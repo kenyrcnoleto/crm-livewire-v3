@@ -10,7 +10,7 @@ use Livewire\Livewire;
 use function Pest\Laravel\get;
 use function PHPUnit\Framework\assertTrue;
 
-/*test('need to receive a valid token with a combintation with the email and open the page', function () {
+test('need to receive a valid token with a combintation with the email and open the page', function () {
 
     Notification::fake();
 
@@ -24,7 +24,7 @@ use function PHPUnit\Framework\assertTrue;
     /*$token = DB::table('password_reset_tokens')
             ->where('email', '=', $user->email)
             ->first();*/
-/*
+
     Notification::assertSentTo(
         $user,
         ResetPassword::class,
@@ -46,7 +46,7 @@ use function PHPUnit\Framework\assertTrue;
     //opção valida para passar parametros no na url
     //get(route('password.reset') .'?token='. $token->token)
 
-});*/
+});
 
 test('test if is possibie to reset the password with the given token', function () {
     Notification::fake();
@@ -68,7 +68,6 @@ test('test if is possibie to reset the password with the given token', function 
         $user,
         ResetPassword::class,
         function (ResetPassword $notification) use ($user) {
-            request()->attributes = ['token' => 'jeremias'];
 
             Livewire::test(
                 Password\Reset::class,
@@ -91,3 +90,37 @@ test('test if is possibie to reset the password with the given token', function 
         }
     );
 });
+
+test('cheking form rules', function ($validation) {
+    Notification::fake();
+
+    //dd($f);
+    $user = User::factory()->create();
+
+    Livewire::test(Password\Recovery::class)
+        ->set('email', $user->email)
+        ->call('startPasswordRecovery');
+
+    Notification::assertSentTo(
+        $user,
+        ResetPassword::class,
+        function (ResetPassword $notification) use ($user, $validation) {
+            //()->attributes = ['token' => 'jeremias'];
+
+            Livewire::test(Password\Reset::class, ['token' => $notification->token, 'email' => $user->email])
+               ->set($validation->field, $validation->value)
+               ->call('updatePassword')
+               ->assertHasErrors([$validation->field => $validation->rule]);
+
+            return true;
+        }
+    );
+
+})->with([
+    //'token:required' => (object)['field' => 'token', 'value' => '', 'rule' => 'required'],
+    'email:required'     => (object)['field' => 'email', 'value' => '', 'rule' => 'required'],
+    'email:confirmed'    => (object)['field' => 'email', 'value' => 'email@email.com', 'rule' => 'confirmed'],
+    'email:email'        => (object)['field' => 'email', 'value' => 'not-an-email', 'rule' => 'email'],
+    'password:required'  => (object)['field' => 'password', 'value' => '', 'rule' => 'required'],
+    'password:confirmed' => (object)['field' => 'password', 'value' => 'any-password', 'rule' => 'confirmed'],
+]);
