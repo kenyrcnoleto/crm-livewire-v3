@@ -8,7 +8,7 @@ use Illuminate\Auth\Passwords\PasswordBroker;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\{DB, Hash, Password};
 use Illuminate\Support\Str;
-use Livewire\Attributes\Rule;
+use Livewire\Attributes\{Computed, Rule};
 use Livewire\Component;
 
 class Reset extends Component
@@ -63,6 +63,12 @@ class Reset extends Component
         session()->flash('status', __($status));
 
         $this->redirect(route('dashboard'));
+    }
+
+    #[Computed]
+    public function obfucatedEmail(): string
+    {
+        return obfuscate_email($this->email);
     }
 
     private function tokenNotValid()
