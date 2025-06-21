@@ -78,7 +78,7 @@ test('test if is possibie to reset the password with the given token', function 
                 ->set('password_confirmation', 'new_password')
                 ->call('updatePassword')
                 ->assertHasNoErrors()
-                ->assertRedirect(route('dashboard'));
+                ->assertRedirect(route('login'));
 
             $user->refresh();
 
@@ -150,7 +150,7 @@ test('needs to show an obfuscate email to the user', function () {
             //()->attributes = ['token' => 'jeremias'];
 
             Livewire::test(Password\Reset::class, ['token' => $notification->token, 'email' => $user->email])
-               ->assertSet('obfucatedEmail', obfuscate_email($user->email));
+               ->assertSet('obfuscatedEmail', obfuscate_email($user->email));
 
             return true;
         }

@@ -22,7 +22,7 @@
 
     <x-form wire:submit="tryToLogin">
         <x-input label="Email" wire:model="email"/>
-        <x-input label="Password" wire:model="password"/>
+        <x-input label="Password" wire:model="password" type="password"/>
         <div>
             <a href="{{route('password.recovery')}}" class="link link-primary">Forgot your password?</a>
         </div>
