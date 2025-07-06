@@ -29,7 +29,6 @@ class Reset extends Component
     {
         $this->token = request('token', $token);
         $this->email = request('email', $email);
-        // dd($this->token);
 
         if ($this->tokenNotValid()) {
 
@@ -81,7 +80,6 @@ class Reset extends Component
     {
         $tokens = DB::table('password_reset_tokens')->get(['token']);
 
-        //dd($this->token);
         foreach ($tokens as $key => $t) {
 
             if (Hash::check($this->token, $t->token)) {
