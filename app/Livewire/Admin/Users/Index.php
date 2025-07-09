@@ -5,15 +5,18 @@ namespace App\Livewire\Admin\Users;
 use App\Enum\Can;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\{Builder, Collection};
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
+/**
+* @property-read Collection|User[] $users
+*/
 class Index extends Component
 {
-    /**
-     * @property-read Collection|User[] $users
-     */
+    public ?string $search = null;
+
     public function mount()
     {
         $this->authorize(Can::BE_AN_ADMIN->value);
@@ -28,7 +31,21 @@ class Index extends Component
     public function users(): Collection
     {
         // dd();
-        return User::all();
+        return User::query()
+            ->when(
+                $this->search,
+                fn (Builder $q) => $q
+                ->where(
+                    DB::raw('lower(name)'),
+                    'LIKE',
+                    '%' . strtolower($this->search) . '%'
+                )->orWhere(
+                    'email',
+                    'like',
+                    '%' . strtolower($this->search) . '%'
+                )
+            )
+            ->get();
     }
 
     #[Computed]
