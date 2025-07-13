@@ -51,17 +51,24 @@ class Index extends Component
             )
             ->when(
                 $this->search_permissions,
-                fn (Builder $q) => $q->whereRaw(
-                    '
-                    ( SELECT COUNT(*)
-                    FROM permission_user
-                    WHERE permission_id IN (?)
-                    AND user_id = users.id) > 0
-                ',
-                    $this->search_permissions
+                fn (Builder $q) => $q->whereHas(
+                    'permissions',
+                    function (Builder $query) {
+                        $query->whereIn('id', $this->search_permissions);
+                    }
                 )
             )
             ->get();
+
+        /* Uma outra forma: fn (Builder $q) => $q->whereRaw(
+                '
+                ( SELECT COUNT(*)
+                FROM permission_user
+                WHERE permission_id IN (?)
+                AND user_id = users.id) > 0
+            ',
+                $this->search_permissions
+            )*/
     }
 
     #[Computed]
