@@ -17,6 +17,8 @@ class Index extends Component
 {
     public ?string $search = null;
 
+    public array $search_permissions = [];
+
     public function mount()
     {
         $this->authorize(Can::BE_AN_ADMIN->value);
@@ -30,6 +32,8 @@ class Index extends Component
     #[Computed()]
     public function users(): Collection
     {
+        $this->validate(['search_permissions' => 'exists:permissions,id']);
+
         // dd();
         return User::query()
             ->when(
@@ -43,6 +47,18 @@ class Index extends Component
                     'email',
                     'like',
                     '%' . strtolower($this->search) . '%'
+                )
+            )
+            ->when(
+                $this->search_permissions,
+                fn (Builder $q) => $q->whereRaw(
+                    '
+                    ( SELECT COUNT(*)
+                    FROM permission_user
+                    WHERE permission_id IN (?)
+                    AND user_id = users.id) > 0
+                ',
+                    $this->search_permissions
                 )
             )
             ->get();
