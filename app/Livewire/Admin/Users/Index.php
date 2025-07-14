@@ -21,6 +21,8 @@ class Index extends Component
 
     public Collection $permissionsToSearch;
 
+    public bool $search_trash = false;
+
     public function mount()
     {
         $this->authorize(Can::BE_AN_ADMIN->value);
@@ -60,6 +62,10 @@ class Index extends Component
                         $query->whereIn('id', $this->search_permissions);
                     }
                 )
+            )
+            ->when(
+                $this->search_trash,
+                fn (Builder $q) => $q->onlyTrashed()
             )
             ->get();
 

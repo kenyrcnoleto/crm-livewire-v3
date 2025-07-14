@@ -116,4 +116,29 @@ test('it should be able to filter by permission.key', function () {
             return true;
         });
 
-})->only();
+});
+
+test('it should be able to list deleted users', function () {
+    $admin       = User::factory()->admin()->create(['name' => 'Joe Doe', 'email' => 'admin@gamil.com']);
+    $deletedUser = User::factory()->count(2)->create(['deleted_at' => now()]);
+
+    //whereKey - vai buscar sempre a primary key da tabela
+
+    actingAs($admin);
+
+    Livewire::test(Admin\Users\Index::class)
+        ->assertSet('users', function ($users) {
+            expect($users)
+                ->toHaveCount(1);
+
+            return true;
+        })
+        ->set('search_trash', true)
+        ->assertSet('users', function ($users) {
+            expect($users)
+                ->toHaveCount(2);
+
+            return true;
+        });
+
+});
