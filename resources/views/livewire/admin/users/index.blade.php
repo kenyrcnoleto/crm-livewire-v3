@@ -6,16 +6,24 @@
 
         <div class="mb-4">
             <x-input
+            label="Search bya email or name"
             icon="o-magnifying-glass"
-            class="input-sm"
              placeholder="Search by email and name"
              wire:model.live="search"
              />
         </div>
 
-        <x-select class="select-sm"> //Permission
-            <option value="1">1</option>
-        </x-select>
+        <x-choices
+                label="Search by permissions"
+                placeholder="Filter by Permissions"
+                wire:model.live="search_permissions"
+                :options="$permissionsToSearch"
+                option-label="key"
+                search-funcion="filterPermissions"
+                no-result-text="Ops! Nothing here ..."
+
+        />
+
     </div>
    <x-table :headers="$this->headers" :rows="$this->users" >
     @scope('cell_permissions', $user)
