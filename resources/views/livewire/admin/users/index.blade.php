@@ -31,6 +31,16 @@
              right tight />
         <hr />
 
+        <x-select
+            label="perPage"
+            wire:model.live="perPage"
+            :options="[
+                ['id' => 10, 'name' => 10],
+                ['id' => 15, 'name' => 15],
+                ['id' => 20, 'name' => 20],
+                ['id' => 30, 'name' => 30],
+            ]"
+        />
     </div>
    <x-table :headers="$this->headers" :rows="$this->users" >
 
@@ -68,4 +78,6 @@
     @endunless
     @endscope
    </x-table>
+
+   {{ $this->users->links() }}
 </div>
