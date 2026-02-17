@@ -43,6 +43,11 @@ class Index extends Component
         return view('livewire.admin.users.index');
     }
 
+    public function updatedPerPage($value): void
+    {
+        $this->resetPage();
+    }
+
     #[Computed()]
     public function users(): LengthAwarePaginator
     {
