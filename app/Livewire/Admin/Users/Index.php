@@ -6,7 +6,6 @@ use App\Enum\Can;
 use App\Models\{Permission, User};
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\{Builder, Collection};
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\{Component, WithPagination};
@@ -49,12 +48,13 @@ class Index extends Component
     }
 
     #[Computed()]
-    public function users(): LengthAwarePaginator
+    public function users()
     {
         $this->validate(['search_permissions' => 'exists:permissions,id']);
 
         // dd();
         return User::query()
+            ->with('permissions')
             ->when(
                 $this->search,
                 fn (Builder $q) => $q
