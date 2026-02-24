@@ -71,13 +71,16 @@
     @endscope
 
     @scope('actions', $user)
+    @can(App\Enum\Can::BE_AN_ADMIN->value)
+        <x-button icon="o-pencil" wire:click="edit({{ $user->id }})" spinner class="btn-sm" />
     @unless ($user->trashed())
         <x-button icon="o-trash" wire:click="delete({{ $user->id }})" spinner class="btn-sm" />
     @else
         <x-button icon="o-arrow-path-rounded-square" wire:click="delete({{ $user->id }})" spinner class="btn-sm btn-success btn-ghost" />
     @endunless
+    @endcan
     @endscope
    </x-table>
 
-   {{ $this->users->links() }}
+   {{ $this->users->links(data: ['scrollTo' => false]) }}
 </div>
