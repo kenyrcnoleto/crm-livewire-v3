@@ -11,6 +11,8 @@ class Delete extends Component
 {
     public User $user;
 
+    public bool $modal = false;
+
     #[Rule(['required', 'confirmed', 'in:kenobi'])]
     public string $confirmation = 'kenobi';
 
@@ -25,6 +27,7 @@ class Delete extends Component
     {
         $this->validate();
         $this->user->delete();
+        $this->user->notify(new \App\Notifications\UserDeletedNotification());
         $this->dispatch('user::deleted');
 
     }
