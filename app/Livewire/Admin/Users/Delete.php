@@ -6,9 +6,12 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\{On, Rule};
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class Delete extends Component
 {
+    use Toast;
+
     public ?User $user = null;
 
     public bool $modal = false;
@@ -34,8 +37,10 @@ class Delete extends Component
         $this->validate();
         $this->user->delete();
         $this->user->notify(new \App\Notifications\UserDeletedNotification());
+
         $this->dispatch('user::deleted');
         $this->reset(['modal', 'confirmation', 'confirmation_confirmation']);
+        $this->success('User deleted successfully');
 
     }
 }
