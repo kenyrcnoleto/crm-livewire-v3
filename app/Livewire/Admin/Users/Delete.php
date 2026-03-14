@@ -35,6 +35,13 @@ class Delete extends Component
     public function destroy()
     {
         $this->validate();
+
+        if ($this->user->is(auth()->user())) {
+            $this->addError('confirmation', 'You cannot delete the logged user');
+
+            return;
+        }
+
         $this->user->delete();
         $this->user->notify(new \App\Notifications\UserDeletedNotification());
 

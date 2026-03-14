@@ -56,3 +56,20 @@ test('should send a notification to the user telling him that no has no long acc
 
     Notification::assertSentTo($forDeletion, \App\Notifications\UserDeletedNotification::class);
 });
+
+test('it should not be possible to delete the logged user', function () {
+    $user = User::factory()->admin()->create();
+
+    actingAs($user);
+
+    Livewire::test(Admin\Users\Delete::class)
+         ->set('user', $user)
+         ->set('confirmation_confirmation', 'kenobi')
+         ->call('destroy')
+         ->assertHasErrors(['confirmation'])
+         ->assertNotDispatched('user::deleted');
+
+    assertNotSoftDeleted('users', [
+        'id' => $user->id,
+    ]);
+})->only();

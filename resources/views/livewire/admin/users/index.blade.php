@@ -47,7 +47,9 @@
             @can(App\Enum\Can::BE_AN_ADMIN->value)
                 <x-button icon="o-pencil" wire:click="edit({{ $user->id }})" spinner class="btn-sm" />
                 @unless ($user->trashed())
+                @unless($user->id === auth()->id())
                     <x-button id="delete-btn-{{ $user->id }}" icon="o-trash" wire:click="destroy('{{ $user->id }}')" wire:key="delete-btn-{{ $user->id }}" spinner class="btn-sm" />
+                        @endunless
                 @else
                     <x-button icon="o-arrow-path-rounded-square" wire:click="delete({{ $user->id }})" spinner
                         class="btn-sm btn-success btn-ghost" />
