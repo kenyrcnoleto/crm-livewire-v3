@@ -129,4 +129,9 @@ class Index extends Component
     {
         $this->dispatch('user::deletion', userId: $id)->to('admin.users.delete');
     }
+
+    public function restore(int $id): void
+    {
+        $this->dispatch('user::restoring', userId: $id)->to('admin.users.restore');
+    }
 }
