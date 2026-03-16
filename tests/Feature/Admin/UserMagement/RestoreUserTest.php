@@ -22,7 +22,7 @@ test('it should be ablet to restore a user', function () {
     assertNotSoftDeleted('users', [
         'id' => $forRestoration->id,
     ]);
-})->only();
+});
 
 test('it should have a confirmation before restoration', function () {
     $user           = User::factory()->admin()->create();
@@ -39,7 +39,7 @@ test('it should have a confirmation before restoration', function () {
     assertSoftDeleted('users', [
         'id' => $forRestoration->id,
     ]);
-})->only();
+});
 
 test('should send a notification to the user telling him that no he has again access to the application', function () {
 
@@ -55,4 +55,4 @@ test('should send a notification to the user telling him that no he has again ac
         ->call('restore');
 
     Notification::assertSentTo($forRestoration, \App\Notifications\UserRestoredAccessNotification::class);
-})->only();
+});
