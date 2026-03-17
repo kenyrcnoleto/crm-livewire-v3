@@ -16,8 +16,8 @@ class Restore extends Component
 
     public bool $modal = false;
 
-    #[Rule(['required', 'confirmed', 'in:dart vader'])]
-    public string $confirmation = 'dart vader';
+    #[Rule(['required', 'confirmed', 'in:kenobi'])]
+    public string $confirmation = 'kenobi';
 
     public ?string $confirmation_confirmation = null;
 
@@ -29,7 +29,7 @@ class Restore extends Component
     #[On('user::restoring')]
     public function openConfirmationFor(int $userId)
     {
-        $this->user  = User::select('id', 'name')->findOrFail($userId);
+        $this->user  = User::select('id', 'name')->withTrashed()->find($userId);
         $this->modal = true;
     }
 

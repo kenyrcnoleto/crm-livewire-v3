@@ -14,7 +14,7 @@
 
         <x-input
             class="input-sm"
-            label="Write 'KENOBI' to confirm the deletion"
+            label="Write 'dart vader' to confirm the deletion"
              wire:model="confirmation_confirmation"
         />
 

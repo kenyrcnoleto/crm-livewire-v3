@@ -15,7 +15,7 @@ test('it should be ablet to restore a user', function () {
 
     Livewire::test(Admin\Users\Restore::class)
         ->set('user', $forRestoration)
-        ->set('confirmation_confirmation', 'dart vader')
+        ->set('confirmation_confirmation', 'kenobi')
         ->call('restore')
         ->assertDispatched('user::restored');
 
@@ -51,7 +51,7 @@ test('should send a notification to the user telling him that no he has again ac
 
     //another way to call the restore method without dispatching the event, so we can test the notification
     Livewire::test(Admin\Users\Restore::class, ['user' => $forRestoration])
-        ->set('confirmation_confirmation', 'dart vader')
+        ->set('confirmation_confirmation', 'kenobi')
         ->call('restore');
 
     Notification::assertSentTo($forRestoration, \App\Notifications\UserRestoredAccessNotification::class);

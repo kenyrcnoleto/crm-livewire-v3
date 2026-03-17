@@ -16,8 +16,8 @@ class Delete extends Component
 
     public bool $modal = false;
 
-    #[Rule(['required', 'confirmed', 'in:kenobi'])]
-    public string $confirmation = 'kenobi';
+    #[Rule(['required', 'confirmed', 'in:dart vader'])]
+    public string $confirmation = 'dart vader';
 
     public ?string $confirmation_confirmation = null;
 

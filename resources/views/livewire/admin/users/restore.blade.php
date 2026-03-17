@@ -12,7 +12,7 @@
 
         <x-input
             class="input-sm"
-            label="Write 'dart vader' to confirm the restoration"
+            label="Write 'kenobi' to confirm the restoration"
              wire:model="confirmation_confirmation"
         />
 

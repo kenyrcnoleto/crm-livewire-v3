@@ -15,7 +15,7 @@ test('it should be ablet to delete a user', function () {
 
     Livewire::test(Admin\Users\Delete::class)
         ->set('user', $forDeletion)
-        ->set('confirmation_confirmation', 'kenobi')
+        ->set('confirmation_confirmation', 'dart vader')
         ->call('destroy')
         ->assertDispatched('user::deleted');
 
@@ -51,7 +51,7 @@ test('should send a notification to the user telling him that no has no long acc
 
     //another way to call the destroy method without dispatching the event, so we can test the notification
     Livewire::test(Admin\Users\Delete::class, ['user' => $forDeletion])
-        ->set('confirmation_confirmation', 'kenobi')
+        ->set('confirmation_confirmation', 'dart vader')
         ->call('destroy');
 
     Notification::assertSentTo($forDeletion, \App\Notifications\UserDeletedNotification::class);
@@ -64,7 +64,7 @@ test('it should not be possible to delete the logged user', function () {
 
     Livewire::test(Admin\Users\Delete::class)
          ->set('user', $user)
-         ->set('confirmation_confirmation', 'kenobi')
+         ->set('confirmation_confirmation', 'dart vader')
          ->call('destroy')
          ->assertHasErrors(['confirmation'])
          ->assertNotDispatched('user::deleted');
@@ -72,4 +72,4 @@ test('it should not be possible to delete the logged user', function () {
     assertNotSoftDeleted('users', [
         'id' => $user->id,
     ]);
-})->only();
+});
