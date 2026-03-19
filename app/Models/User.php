@@ -28,6 +28,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'restored_at',
+        'restored_by',
+        'deleted_by',
     ];
 
     /**
@@ -49,4 +52,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password'          => 'hashed',
     ];
+
+    public function restoredBy()
+    {
+        return $this->belongsTo(User::class, 'restored_by');
+    }
+
+    public function deletedBy()
+    {
+        //need to specify the foreign key because by default it will look for deleted_by_id which is not the case here
+        return $this->belongsTo(User::class, 'deleted_by');
+    }
 }

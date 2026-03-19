@@ -36,6 +36,9 @@ class Restore extends Component
     public function restore()
     {
         $this->validate();
+        $this->user->restored_at = now();
+        $this->user->restored_by = auth()->user()->id;
+        $this->user->save();
 
         if ($this->user->is(auth()->user())) {
             $this->addError('confirmation', 'You cannot restore the logged user');

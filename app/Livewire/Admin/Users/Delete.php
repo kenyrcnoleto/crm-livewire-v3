@@ -43,6 +43,9 @@ class Delete extends Component
         }
 
         $this->user->delete();
+        $this->user->deleted_by = auth()->id();
+        $this->user->save();
+
         $this->user->notify(new \App\Notifications\UserDeletedNotification());
 
         $this->dispatch('user::deleted');

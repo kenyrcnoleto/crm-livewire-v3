@@ -22,6 +22,12 @@ test('it should be ablet to restore a user', function () {
     assertNotSoftDeleted('users', [
         'id' => $forRestoration->id,
     ]);
+
+    $forRestoration->refresh();
+    //  dd($forRestoration->toArray());
+
+    expect($forRestoration)->restored_at->not->toBeNull()
+        ->and($forRestoration)->restoredBy->id->toBe($user->id);
 });
 
 test('it should have a confirmation before restoration', function () {
@@ -39,6 +45,7 @@ test('it should have a confirmation before restoration', function () {
     assertSoftDeleted('users', [
         'id' => $forRestoration->id,
     ]);
+
 });
 
 test('should send a notification to the user telling him that no he has again access to the application', function () {
