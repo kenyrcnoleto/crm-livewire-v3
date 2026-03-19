@@ -46,14 +46,14 @@
         @scope('actions', $user)
             @can(App\Enum\Can::BE_AN_ADMIN->value)
                 <x-button icon="o-pencil" wire:click="edit({{ $user->id }})" spinner class="btn-sm" />
-                @unless ($user->trashed())
-                @unless($user->id === auth()->id())
-                    <x-button id="delete-btn-{{ $user->id }}" icon="o-trash" wire:click="destroy('{{ $user->id }}')" wire:key="delete-btn-{{ $user->id }}" spinner class="btn-sm" />
-                        @endunless
+                @if (!$user->trashed())
+                @if($user->id !== auth()->id())
+                <x-button id="delete-btn-{{ $user->id }}" icon="o-trash" wire:click="destroy('{{ $user->id }}')" wire:key="delete-btn-{{ $user->id }}" spinner class="btn-sm" />
+                @endif
                 @else
-                    <x-button icon="o-arrow-path-rounded-square" wire:click="delete({{ $user->id }})" spinner
-                        class="btn-sm btn-success btn-ghost" />
-                @endunless
+                    <x-button id="restore-btn-{{ $user->id }}" icon="o-arrow-path-rounded-square" wire:click="restore('{{ $user->id }}')" spinner
+                        wire:key="restore-btn-{{ $user->id }}" class="btn-sm btn-success btn-ghost" />
+                @endif
             @endcan
         @endscope
     </x-table>
@@ -61,4 +61,5 @@
     {{ $this->users->links(data: ['scrollTo' => false]) }}
 
     <livewire:admin.users.delete />
+    <livewire:admin.users.restore />
 </div>

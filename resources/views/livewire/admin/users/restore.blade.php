@@ -1,9 +1,7 @@
-    {{-- Do your work, then step back. --}}
-
-    <x-modal
+<x-modal
         wire:model="modal"
-        title="Deletion Confirmation"
-        subtitle="You are deleting the user {{ $user?->name }}"
+        title="Restore Confirmation"
+        subtitle="You are restoring the user {{ $user?->name }}"
         separator>
 
         @error('confirmation')
@@ -14,13 +12,13 @@
 
         <x-input
             class="input-sm"
-            label="Write 'dart vader' to confirm the deletion"
+            label="Write 'kenobi' to confirm the restoration"
              wire:model="confirmation_confirmation"
         />
 
 
         <x-slot:actions>
             <x-button label="Cancel" @click="$wire.modal = false" />
-            <x-button label="Confirm" class="btn-primary" wire:click="destroy" />
+            <x-button label="Confirm" class="btn-primary" wire:click="restore" />
         </x-slot:actions>
 </x-modal>

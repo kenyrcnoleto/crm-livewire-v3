@@ -16,8 +16,8 @@ class Delete extends Component
 
     public bool $modal = false;
 
-    #[Rule(['required', 'confirmed', 'in:kenobi'])]
-    public string $confirmation = 'kenobi';
+    #[Rule(['required', 'confirmed', 'in:dart vader'])]
+    public string $confirmation = 'dart vader';
 
     public ?string $confirmation_confirmation = null;
 
@@ -43,6 +43,9 @@ class Delete extends Component
         }
 
         $this->user->delete();
+        $this->user->deleted_by = auth()->id();
+        $this->user->save();
+
         $this->user->notify(new \App\Notifications\UserDeletedNotification());
 
         $this->dispatch('user::deleted');

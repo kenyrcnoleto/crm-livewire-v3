@@ -38,6 +38,7 @@ class Index extends Component
     }
 
     #[On('user::deleted')]
+    #[On('user::restored')]
     public function render(): View
     {
         return view('livewire.admin.users.index');
@@ -128,5 +129,10 @@ class Index extends Component
     public function destroy(int $id): void
     {
         $this->dispatch('user::deletion', userId: $id)->to('admin.users.delete');
+    }
+
+    public function restore(int $id): void
+    {
+        $this->dispatch('user::restoring', userId: $id)->to('admin.users.restore');
     }
 }
