@@ -43,3 +43,19 @@ test('it should open the modal when the event is dispatched', function () {
     //         ->assertSet('modal', true);
 
 });
+
+test('making sure that the method loadUser has the attribute On', function () {
+
+    $livewireClass = new Admin\Users\Show();
+
+    $reflection = new ReflectionClass($livewireClass);
+
+    $attributes = $reflection->getMethod('loadUser')->getAttributes();
+
+    expect($attributes)->toHaveCount(1);
+
+    expect($attributes[0]->getName())->toBe('Livewire\Attributes\On')
+        ->and($attributes[0]->getArguments())->toHaveCount(1)
+        ->and($attributes[0]->getArguments()[0])->toBe('user::show');
+
+})->only();
