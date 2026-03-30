@@ -44,17 +44,30 @@
         @endscope
 
         @scope('actions', $user)
-            @can(App\Enum\Can::BE_AN_ADMIN->value)
-                <x-button icon="o-pencil" wire:click="edit({{ $user->id }})" spinner class="btn-sm" />
-                @if (!$user->trashed())
-                @if($user->id !== auth()->id())
-                <x-button id="delete-btn-{{ $user->id }}" icon="o-trash" wire:click="destroy('{{ $user->id }}')" wire:key="delete-btn-{{ $user->id }}" spinner class="btn-sm" />
-                @endif
-                @else
-                    <x-button id="restore-btn-{{ $user->id }}" icon="o-arrow-path-rounded-square" wire:click="restore('{{ $user->id }}')" spinner
-                        wire:key="restore-btn-{{ $user->id }}" class="btn-sm btn-success btn-ghost" />
-                @endif
-            @endcan
+
+            <div class="flex-items-center space-x-2" >
+
+                <x-button
+                    id="show-btn-{{ $user->id }}"
+                    wire:key="show-btn-{{ $user->id }}"
+                    icon="o-eye"
+                    wire:click="showUser({{ $user->id }})"
+                    spinner classer="btn-sm"
+                    />
+
+                @can(App\Enum\Can::BE_AN_ADMIN->value)
+                    <x-button icon="o-pencil" wire:click="edit({{ $user->id }})" spinner class="btn-sm" />
+                    @if (!$user->trashed())
+                    @if($user->id !== auth()->id())
+                    <x-button id="delete-btn-{{ $user->id }}" icon="o-trash" wire:click="destroy('{{ $user->id }}')" wire:key="delete-btn-{{ $user->id }}" spinner class="btn-sm" />
+                    @endif
+                    @else
+                        <x-button id="restore-btn-{{ $user->id }}" icon="o-arrow-path-rounded-square" wire:click="restore('{{ $user->id }}')" spinner
+                            wire:key="restore-btn-{{ $user->id }}" class="btn-sm btn-success btn-ghost" />
+                    @endif
+                @endcan
+            </div>
+
         @endscope
     </x-table>
 
