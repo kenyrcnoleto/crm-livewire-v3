@@ -68,6 +68,7 @@
 
         @if (session('impersonate'))
             {{__("You're impersonating :name, click here to stop impersonating.", ['name' => auth()->user()->name])}}
+            {{ auth()->user()->name }}
 
         @endif
             {{ $slot }}

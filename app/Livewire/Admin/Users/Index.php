@@ -131,6 +131,12 @@ class Index extends Component
         $this->dispatch('user::deletion', userId: $id)->to('admin.users.delete');
     }
 
+    public function impersonate(int $id): void
+    {
+        // dd('impersonate', $id);
+        $this->dispatch('user::impersonation', userId: $id)->to('admin.users.impersonate');
+    }
+
     public function restore(int $id): void
     {
         $this->dispatch('user::restoring', userId: $id)->to('admin.users.restore');
