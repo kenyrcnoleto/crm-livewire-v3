@@ -22,7 +22,7 @@ test('it should add a key impersonate to the session with the given user', funct
 
     assertSame(session()->get('impersonate'), $user->id);
     assertSame(session()->get('impersonator'), $admin->id);
-})->only();
+});
 
 test('should make sure that we are logged with the impersonate user', function () {
     $admin = User::factory()->admin()->create();
