@@ -9,15 +9,20 @@ use function PHPUnit\Framework\{assertSame, assertTrue};
 
 test('it should add a key impersonate to the session with the given user', function () {
 
-    $user = User::factory()->create();
+    $admin = User::factory()->admin()->create();
+    $user  = User::factory()->create();
+
+    actingAs($admin);
 
     Livewire::test(Impersonate::class)
             ->call('impersonate', $user->id);
 
     assertTrue(session()->has('impersonate'));
+    assertTrue(session()->has('impersonator'));
 
     assertSame(session()->get('impersonate'), $user->id);
-});
+    assertSame(session()->get('impersonator'), $admin->id);
+})->only();
 
 test('should make sure that we are logged with the impersonate user', function () {
     $admin = User::factory()->admin()->create();
