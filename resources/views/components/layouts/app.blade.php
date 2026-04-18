@@ -22,6 +22,10 @@
         </x-slot:actions>
     </x-nav>
 
+     @if (session('impersonate'))
+            <livewire:admin.users.stop-impersonate />
+
+     @endif
     {{-- MAIN --}}
     <x-main full-width>
         <x-toast/>
@@ -65,6 +69,7 @@
 
         {{-- The `$slot` goes here --}}
         <x-slot:content>
+
             {{ $slot }}
         </x-slot:content>
     </x-main>

@@ -58,4 +58,4 @@ test('making sure that the method loadUser has the attribute On', function () {
         ->and($attributes[0]->getArguments())->toHaveCount(1)
         ->and($attributes[0]->getArguments()[0])->toBe('user::show');
 
-})->only();
+});
