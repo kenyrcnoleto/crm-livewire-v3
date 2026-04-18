@@ -83,3 +83,14 @@ test('it should have the correct permission to impersonate someone', function ()
             ->assertRedirect();
 
 });
+
+test('it should not possible to impersonate myself', function () {
+    $admin = User::factory()->admin()->create();
+
+    actingAs($admin);
+
+    Livewire::test(Impersonate::class)
+            ->call('impersonate', $admin->id)
+            ->assertRedirect();
+
+})->throws(Exception::class, "You cannot impersonate yourself");

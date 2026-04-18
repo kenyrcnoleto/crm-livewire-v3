@@ -21,6 +21,10 @@ class Impersonate extends Component
     public function impersonate(int $userId): void
     {
         $this->authorize(Can::BE_AN_ADMIN->value);
+
+        if (auth()->id() === $userId) {
+            throw new \Exception('You cannot impersonate yourself');
+        }
         session()->put('impersonator', auth()->id());
         session()->put('impersonate', $userId);
 
