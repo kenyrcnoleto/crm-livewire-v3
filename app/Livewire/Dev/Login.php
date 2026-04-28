@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
+/*
+*@property-read \Illuminate\Database\Eloquent\Collection|User[] $users
+ */
 class Login extends Component
 {
     public ?int $selectedUser = null;
