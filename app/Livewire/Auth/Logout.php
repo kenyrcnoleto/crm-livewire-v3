@@ -3,6 +3,7 @@
 namespace App\Livewire\Auth;
 
 use Illuminate\Contracts\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Logout extends Component
@@ -11,14 +12,11 @@ class Logout extends Component
     {
         return view('livewire.auth.logout');
         /*return <<<'HTML'
-                <x-button icon="o-power"
-                class="btn-circle btn-ghost btn-xs"
-                tooltip-left="logoff"
-                no-wire-navigate
-                 wire:click="logout" />
+               <div></div>
         HTML;*/
     }
 
+    #[On('logout')]
     public function logout(): void
     {
         auth()->logout();
