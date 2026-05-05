@@ -2,8 +2,14 @@
 
 use App\Listeners\Auth\CreateValidationCode;
 use App\Models\User;
+use App\Notifications\Auth\ValidationCodeNotification;
+use Illuminate\Support\Facades\Notification;
 
 use function PHPUnit\Framework\assertTrue;
+
+beforeEach(function () {
+    Notification::fake();
+});
 
 test('should create a new validation code and save in the users table', function () {
 
@@ -24,8 +30,18 @@ test('should create a new validation code and save in the users table', function
 });
 
 test('should send that new code the user via email', function () {
+    $user = User::factory()->create(['email_verified_at' => null, 'validation_code' => null]);
 
-})->todo();
+    $event    = new \Illuminate\Auth\Events\Registered($user);
+    $listener = new CreateValidationCode();
+
+    $listener->handle($event);
+
+    Notification::assertSentTo($user, ValidationCodeNotification::class);
+    // Notification::assertSentTO($user, function (ValidationCodeNotification $notification) use ($user) {
+    //     return $notification->toMail($user)->subject === 'Your validation code';
+    // });
+});
 
 test('making sure that the listener to send the is code is linked to the Registered event', function () {
 
