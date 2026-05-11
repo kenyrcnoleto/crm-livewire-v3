@@ -64,4 +64,12 @@ class UserFactory extends Factory
             'deleted_by' => User::factory()->admin(),
         ]);
     }
+
+    public function withValidationCode(): static
+    {
+        return $this->state(fn () => [
+            'validation_code' => random_int(100000, 999999),
+        ]);
+
+    }
 }
