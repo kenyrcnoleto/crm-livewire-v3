@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Auth;
 
-use App\Notifications\Auth\ValidationCodeNotification;
+use App\Events\SendNewCode;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
@@ -29,14 +29,10 @@ class EmailValidation extends Component
 
     public function sendNewCode()
     {
-        /** @var \App\Models\User $user */
 
-        $user = auth()->user();
+        SendNewCode::dispatch(
+            auth()->user()
+        );
 
-        $user->validation_code = random_int(100000, 999999);
-
-        $user->save();
-
-        $user->notify(new ValidationCodeNotification());
     }
 }
