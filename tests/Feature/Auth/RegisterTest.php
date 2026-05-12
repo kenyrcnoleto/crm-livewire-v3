@@ -71,7 +71,7 @@ test('validation rules', function ($f) {
     'email::unique'      => (object)['field' => 'email', 'value' => 'joe@doe.com', 'rule' => 'unique' , 'aField' => 'email_confirmation', 'aValue' => 'joe@doe.com'],
     'password::required' => (object)['field' => 'password', 'value' => '', 'rule' => 'required'],
 ]);
-
+/* Não preciso mais deste teste, pois os outros testes (EmailVerificationTest) já cobrem a funcionalidade de enviar a notificação de boas vindas para o usuário
 test('it should send a notification welcoming the new user', function () {
     Notification::fake();
 
@@ -84,8 +84,8 @@ test('it should send a notification welcoming the new user', function () {
 
     $user = User::whereEmail('joe@doe.com')->first();
 
-    Notification::assertSentTo($user, WelcomeNotification::class);
-});
+    // Notification::assertSentTo($user, WelcomeNotification::class);
+});*/
 
 test('it should dispatch Registered event', function () {
     Event::fake();

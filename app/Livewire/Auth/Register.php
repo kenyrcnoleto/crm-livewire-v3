@@ -45,7 +45,7 @@ class Register extends Component
 
         auth()->login($user);
 
-        $user->notify(new WelcomeNotification());
+        // $user->notify(new WelcomeNotification());
 
         Event::dispatch(new \Illuminate\Auth\Events\Registered($user));
 
