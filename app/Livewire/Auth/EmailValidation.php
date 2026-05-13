@@ -7,12 +7,16 @@ use App\Notifications\WelcomeNotification;
 use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 class EmailValidation extends Component
 {
     public $code = null;
 
+    public ?string $sendNewCodeMessage = null;
+
+    #[Layout('components.layouts.guest')]
     public function render(): View
     {
         return view('livewire.auth.email-validation');
@@ -20,9 +24,11 @@ class EmailValidation extends Component
 
     public function handle()
     {
+        $this->reset('sendNewCodeMessage');
+
         $this->validate([
             'code' => function (string $attribute, mixed $value, Closure $fail) {
-                if ($value !== auth()->user()->validation_code) {
+                if ($value != auth()->user()->validation_code) {
                     $fail("The code is invalid.");
                 }
             },
@@ -45,6 +51,6 @@ class EmailValidation extends Component
         SendNewCode::dispatch(
             auth()->user()
         );
-
+        $this->sendNewCodeMessage = "A new code has been sent to your email.";
     }
 }
